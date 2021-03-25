@@ -1,0 +1,16 @@
+{
+  "name": "futurama-api",
+  "version": "1.0.0",
+  "description": "An API of Futurama characters!",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "author": "Shara Crosslin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
