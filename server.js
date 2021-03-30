@@ -43,3 +43,9 @@ const port = process.env.PORT || 3000;
 app.listen(3000, () => {
   console.log(`Running on port ${port}`);
 });
+
+/* next steps:
+1. make a generate random character button (random based on id)
+2. have option to add characters to list
+(check index.ejs for html next steps)
+*/
