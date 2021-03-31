@@ -1,15 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 const { user, mdbKey } = require("./keys.js");
 const { characters } = require("./characters");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
-require("dotenv").config();
-MongoClient.connect(
-  `mongodb+srv://${user}:${mdbKey}@cluster0.g2mtk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-  {
-    useUnifiedTopology: true
-  }
-);
+
+let db,
+  dbConnectionStr = process.env.DB_STRING,
+  dbName = "futurama";
+
+MongoClient.connect(dbConnectionStr, {
+  useUnifiedTopology: true
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
