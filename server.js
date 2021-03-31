@@ -3,6 +3,7 @@ const { user, mdbKey } = require("./keys.js");
 const { characters } = require("./characters");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
+require("dotenv").config();
 MongoClient.connect(
   `mongodb+srv://${user}:${mdbKey}@cluster0.g2mtk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   {
@@ -42,7 +43,7 @@ app.get("/", (req, res) => {
 //   });
 // });
 const port = process.env.PORT || 3000;
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
 
