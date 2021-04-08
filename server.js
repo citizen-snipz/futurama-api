@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const { user, mdbKey } = require("./keys.js");
-const { characters } = require("./characters");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
@@ -9,32 +8,39 @@ let db,
   dbConnectionStr = process.env.DB_STRING,
   dbName = "futurama";
 
-MongoClient.connect(dbConnectionStr, {
-  useUnifiedTopology: true
-});
+MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+  .then((client) => {
+    console.log(`Connected to ${dbName} database`);
+    db = client.db(dbName);
+  })
+  .catch((err) =>
+    console.error("Failure to connect: ", err.message, err.stack)
+  );
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use((req, res, next) => {
+  res.locals.charResults = null;
+  next();
+});
 
-app.get("/", (req, res) => {
-  let { charName } = req.query;
+app.get("/", (req, res) => res.render("index"));
 
-  if (!charName) return res.render("index", { charResults: null });
-  charName = charName.toLowerCase();
-  const charResults = characters.filter(
-    (char) =>
-      char.name.toLowerCase() === charName ||
-      char.nickname.toLowerCase() === charName
-  );
-  if (charResults[0]) return res.render("index", { charResults });
-  res.render("index", { charResults: null });
+app.get("/getCharResults", async (req, res) => {
+  let { charName } = await req.query;
+  const characterDb = await db
+    .collection("futurama")
+    .find({ $or: [{ name: charName, nickname: charName }] })
+    .toArray()
+    .then((info) => {})
+    .catch((err) => console.error(err));
 });
 
 // const paths = {
-//   saying: "Nobody doesn't like Molten Boron!",
+//   boron: "Nobody doesn't like Molten Boron!",
 //   popplers: "Pop a Poppler in your mouth when you eat a Fishy Joe's!"
 // };
 // app.get("/:path", (req, res) => {
@@ -51,6 +57,6 @@ app.listen(port, () => {
 
 /* next steps:
 1. make a generate random character button (random based on id)
-2. have option to add characters to list
+2. have option to add CHANGE_THIS_TO_COLLECTION to list
 (check index.ejs for html next steps)
 */
