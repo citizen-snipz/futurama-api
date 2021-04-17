@@ -20,11 +20,13 @@
       <input
         class="search"
         type="search"
-        placeholder="Character Name"
+        placeholder="Search Character Name"
         name="charName"
       />
       <input class="submitBtn" type="submit" />
     </form>
+    <p>OR</p>
+    <a href="/addChar.ejs" class="addBtn">Add a Character</a>
     <div class="wrapper">
       <div class="card">
         <% if (charResults) { %> <% console.log(charResults) %>
@@ -47,7 +49,7 @@
         />
         <h2 class="bender-error">
           I am Bender, please insert girder. <br />
-          (No charcter found, please try again!)
+          (No character found, please try again!)
         </h2>
 
         <% } %>
