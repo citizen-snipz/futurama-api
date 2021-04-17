@@ -16,7 +16,7 @@
       />
       Welcome to the Futurama character API!
     </h1>
-    <form action="/" method="GET">
+    <form action="/getCharResults" method="GET">
       <input
         class="search"
         type="search"
@@ -39,6 +39,17 @@
         <h4><%= `Home Planet: ${charResults[0].homePlanet}` %></h4>
         <h4><%= `Job: ${charResults[0].job}` %></h4>
         <h4><%= `Famous quote: "${charResults[0].quote}"` %></h4>
+        <% } else { %>
+        <img
+          class="bender-error"
+          src="img/bender-error.png"
+          alt="Bender error message"
+        />
+        <h2 class="bender-error">
+          I am Bender, please insert girder. <br />
+          (No charcter found, please try again!)
+        </h2>
+
         <% } %>
       </div>
     </div>
