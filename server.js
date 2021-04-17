@@ -31,12 +31,22 @@ app.get("/", (req, res) => res.render("index"));
 
 app.get("/getCharResults", async (req, res) => {
   let { charName } = await req.query;
-  const characterDb = await db
-    .collection("futurama")
-    .find({ $or: [{ name: charName, nickname: charName }] })
-    .toArray()
-    .then((info) => {})
-    .catch((err) => console.error(err));
+  const regex = new RegExp(charName, "gi");
+  try {
+    const characterDb = await db
+      .collection("characters")
+      .find({
+        $or: [{ name: { $regex: regex } }, { nickname: { $regex: regex } }]
+      })
+      .toArray();
+    console.log(characterDb);
+    if (characterDb.length) {
+      return res.render("index", { charResults: characterDb });
+    }
+    return res.render("index", { charResults: null });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // const paths = {
