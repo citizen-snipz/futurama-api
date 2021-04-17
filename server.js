@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const { user, mdbKey } = require("./keys.js");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
