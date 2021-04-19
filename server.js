@@ -29,6 +29,8 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => res.render("index"));
 
+app.get("/addChar", (req, res) => res.render("addChar"));
+
 app.get("/getCharResults", async (req, res) => {
   let { charName } = await req.query;
   const regex = new RegExp(charName, "gi");
@@ -48,6 +50,8 @@ app.get("/getCharResults", async (req, res) => {
     console.error(err);
   }
 });
+
+// app.post("/addNewChar");
 
 // const paths = {
 //   boron: "Nobody doesn't like Molten Boron!",
