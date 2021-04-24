@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 // const { user, mdbKey } = require("./keys.js");
+
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
@@ -17,6 +18,7 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     console.error("Failure to connect: ", err.message, err.stack)
   );
 
+// middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -51,19 +53,22 @@ app.get("/getCharResults", async (req, res) => {
   }
 });
 
-// app.post("/addNewChar");
+app.post("/addNewChar", (res, req) => {
+  // db.collection('characters').insertOne({})
+  console.log(req.body); //returning undefined - double check if body parser is needed
+});
 
-// const paths = {
-//   boron: "Nobody doesn't like Molten Boron!",
-//   popplers: "Pop a Poppler in your mouth when you eat a Fishy Joe's!"
-// };
-// app.get("/:path", (req, res) => {
-//   const path = req.params.path;
-//   res.json({
-//     statement:
-//       paths[path] || "I am Bender, please insert girder (file path not found)"
-//   });
-// });
+const paths = {
+  boron: "Nobody doesn't like Molten Boron!",
+  popplers: "Pop a Poppler in your mouth when you eat a Fishy Joe's!"
+};
+app.get("/:path", (req, res) => {
+  const path = req.params.path;
+  res.json({
+    statement:
+      paths[path] || "I am Bender, please insert girder (file path not found)"
+  });
+});
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
